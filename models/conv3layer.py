@@ -10,9 +10,6 @@ class Model(object):
         self.optimizer.setup(self.functions.collect_parameters())
         self.PATCH_SHAPE = PATCH_SHAPE
 
-    def set_context(self, gpu):
-        chainer.cuda.init(gpu)
-
     def train(self, x_data, y_data):
         x = chainer.Variable(x_data)
         y = chainer.Variable(y_data.reshape(y_data.size/3, 3))
