@@ -3,12 +3,9 @@ import chainer
 class Model(object):
     PATCH_SHAPE = (13, 13, 3)
 
-    def __init__(self, gpu):
+    def __init__(self):
         self.optimizer = chainer.optimizers.Adam()
         self.functions = Functions()
-        if gpu >= 0:
-            self.set_context(gpu)
-            self.functions.to_gpu()
         self.optimizer.setup(self.functions.collect_parameters())
 
     def train(self, x_data, y_data):
@@ -24,6 +21,10 @@ class Model(object):
     def predict(self, x_data):
         x = chainer.Variable(x_data)
         return self.functions.forward(x).data
+
+    def to_gpu(self):
+        self.functions.to_gpu()
+        self.optimizer.setup(self.functions.collect_parameters())
 
 class Functions(chainer.FunctionSet):
     def __init__(self):

@@ -27,14 +27,18 @@ args = parser.parse_args()
 PATCH_SHAPE = (9, 9, 3)
 
 if args.model == "simple3layer":
-    model = models.simple3layer.Model(args.gpu, PATCH_SHAPE)
+    model = models.simple3layer.Model(PATCH_SHAPE)
 elif args.model == "conv3layer":
-    model = models.conv3layer.Model(args.gpu, PATCH_SHAPE)
+    model = models.conv3layer.Model(PATCH_SHAPE)
 elif args.model == "conv3layer_large":
     PATCH_SHAPE = models.conv3layer_large.Model.PATCH_SHAPE
-    model = models.conv3layer_large.Model(args.gpu)
+    model = models.conv3layer_large.Model()
 else:
     exit(1)
+
+if args.gpu >= 0:
+    chainer.cuda.init(args.gpu)
+    model.to_gpu()
 
 
 def read_image_mean(noisy_path, num=10000):
