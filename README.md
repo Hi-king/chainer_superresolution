@@ -7,12 +7,14 @@ How to train
 2x upsampling
 
 ```
-python train.py --gpu=1 simple3layer imgs/double/train imgs/double/evaluation
+python train.py --gpu=1 simple3layer imgs/double/directory_contains_imgs
 ```
 
-with Single (noisy, clean) pair
+
+Evaluation
 
 ```
-python train_single.py conv3layer imgs/miku_CC_BY-NC.jpg imgs/miku_CC_BY-NC.jpg
+python evaluation.py --gpu=1 output/simple3layer_9900001.dump imgs/miku_CC_BY-NC.jpg
+open noisy.png # downsampled img
+open converted.png # converted from noisy.png
 ```
-

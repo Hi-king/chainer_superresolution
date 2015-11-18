@@ -19,7 +19,6 @@ import models
 parser = argparse.ArgumentParser()
 parser.add_argument("model")
 parser.add_argument("trains")
-parser.add_argument("tests")
 parser.add_argument('--gpu', '-g', default=-1, type=int,
                     help='GPU ID (negative value indicates CPU)')
 args = parser.parse_args()
