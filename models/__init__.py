@@ -1,3 +1,5 @@
 import simple3layer
 import conv3layer
+import fullconv3layer
+import fullconv5layer
 import conv3layer_large
