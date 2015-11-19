@@ -21,7 +21,7 @@ class Model(object):
 
     def predict(self, x_data):
         x = chainer.Variable(x_data)
-        return self.functions.forward(x).data
+        return self.functions.forward(x)[0].data
 
     def to_gpu(self):
         self.functions.to_gpu()
@@ -74,11 +74,20 @@ class Functions(chainer.FunctionSet):
                 pad=0),
         )
     def forward(self, x):
-        h = self.fc2(
-            chainer.functions.relu(self.fc1(
-            chainer.functions.relu(self.conv5(
-            chainer.functions.relu(self.conv4(
-            chainer.functions.relu(self.conv3(
-            chainer.functions.relu(self.conv2(
-            chainer.functions.relu(self.conv1(x)))))))))))))
-        return h
+        conv1 = chainer.functions.relu(self.conv1(x))
+        conv2 = chainer.functions.relu(self.conv2(conv1))
+        conv3 = chainer.functions.relu(self.conv3(conv2))
+        conv4 = chainer.functions.relu(self.conv4(conv3))
+        conv5 = chainer.functions.relu(self.conv5(conv4))
+        fc1 = chainer.functions.relu(self.fc1(conv5))
+        fc2 = self.fc2(fc1)
+        return fc2, {
+            "conv1": conv1,
+            "conv2": conv2,
+            "conv3": conv3,
+            "conv4": conv4,
+            "conv5": conv5,
+            "fc1": fc1,
+            "fc2": fc2
+        }
+

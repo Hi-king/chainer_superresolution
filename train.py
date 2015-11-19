@@ -29,6 +29,11 @@ if args.model == "simple3layer":
     model = models.simple3layer.Model(PATCH_SHAPE)
 elif args.model == "conv3layer":
     model = models.conv3layer.Model(PATCH_SHAPE)
+elif args.model == "fullconv3layer":
+    model = models.fullconv3layer.Model(PATCH_SHAPE)
+elif args.model == "fullconv5layer":
+    model = models.fullconv5layer.Model()
+    PATCH_SHAPE = model.PATCH_SHAPE
 elif args.model == "conv3layer_large":
     PATCH_SHAPE = models.conv3layer_large.Model.PATCH_SHAPE
     model = models.conv3layer_large.Model()
@@ -37,7 +42,8 @@ else:
     exit(1)
 
 if args.gpu >= 0:
-    chainer.cuda.init(args.gpu)
+    chainer.cuda.get_device(args.gpu).use()
+    #chainer.cuda.init(args.gpu)
     model.to_gpu()
 
 
